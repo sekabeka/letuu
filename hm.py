@@ -3,7 +3,6 @@ import pandas as pd
 import re
 import asyncio
 from types import NoneType
-from playwright._impl._api_types import Error
 
 def filter(object:pd.DataFrame, key:str):
     return object.drop_duplicates(subset=[key])
@@ -87,12 +86,12 @@ async def js(page, url, **kwargs):
             return []
         try:
             data = await json(page, url)
-        except Error:
+        except:
             return []
         new_link = f"https://www.letu.ru/s/api/product/v2/product-detail/{data['productId']}/tabs?locale=ru-RU&pushSite=storeMobileRU"
         try:
             data2 = await json(page, new_link)
-        except Error:
+        except:
             return []
         if type(data2) != NoneType:
             return parse(data, data2, **kwargs)
