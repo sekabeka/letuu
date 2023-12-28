@@ -81,10 +81,10 @@ async def js(page, url):
 
 async def main():
     async with async_playwright() as play:
-        browser = await play.firefox.launch(headless=False)
+        browser = await play.chromium.launch(headless=True)
         context = await browser.new_context()
         await init(context)
-        table = pd.read_excel(r'C:\Users\Арсений\Desktop\Letu.xlsx', sheet_name=None)
+        table = pd.read_excel('Letu.xlsx', sheet_name=None)
         pages = [await context.new_page() for _ in range (1, 10)]
         import time
         start = time.perf_counter()
