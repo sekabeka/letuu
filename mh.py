@@ -97,6 +97,7 @@ async def main():
                     urls = df['Ссылки']
                     count = 0
                     urls = urls[::-1]
+                    prefixs = prefixs[::-1]
                     while urls:
                         for page in pages:
                             count += 1

@@ -215,7 +215,7 @@ def parse(data, data2, **kwargs):
             available = item['isInStock']
             price = float(item['price']['amount'])
             sale_size = int(item['price']['discountPercent'])
-            img_prop = 'https://www.letu.ru' + item['greatImageURL']
+            img_prop = 'https://www.letu.ru' + item['shade']['image']['url']
             try:
                 prop = item['unitOfMeasure'].strip()
             except:
