@@ -95,11 +95,18 @@ async def main():
                 result = []
                 if name == 'Ссылка':
                     urls = df['Ссылки']
-                    for url, prefix, page in zip(urls, prefixs, pages):
-                        tmp_result = [i for i in await Links(page=page, url=url, prefix=prefix) if i != None]
-                        print (f'We have +1 passed link for {len(urls)}')
-                        p = pd.DataFrame(tmp_result)
-                        p.to_excel(writer, index=False, sheet_name=url)
+                    count = 1
+                    while urls:
+                        for page in pages:
+                            count += 1
+                            if urls:
+                                url, prefix = urls.pop(), prefixs.pop()
+                                tmp_result = [i for i in await Links(page=page, url=url, prefix=prefix) if i != None]
+                            else:
+                                break
+                            print (f'We have +1 passed link for {len(urls)}')
+                            p = pd.DataFrame(tmp_result)
+                            p.to_excel(writer, index=False, sheet_name=f'{count} link')
                 else:
                     urls = df['Название Бренда']
                     len_urls = len(urls)
