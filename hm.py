@@ -86,10 +86,25 @@ async def json(page, url):
 
 
 async def js(page, url, **kwargs):
-    data = await dates(page, url)
-    new_link = f"https://www.letu.ru/s/api/product/v2/product-detail/{data['productId']}/tabs?locale=ru-RU&pushSite=storeMobileRU"
-    data2 = await dates(page, new_link)
-    return parse(data, data2, **kwargs)
+    try:
+        if kwargs['repeat'] == 4:
+            return []
+        try:
+            data = await json(page, url)
+        except:
+            return []
+        new_link = f"https://www.letu.ru/s/api/product/v2/product-detail/{data['productId']}/tabs?locale=ru-RU&pushSite=storeMobileRU"
+        try:
+            data2 = await json(page, new_link)
+        except:
+            return []
+        if type(data2) != NoneType:
+            return parse(data, data2, **kwargs)
+        else:
+            raise TypeError
+    except TypeError:
+        kwargs['repeat'] += 1
+        await js (page, url, **kwargs)
 
 def image(imgs:list, images:list):
         for img in imgs:
